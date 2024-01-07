@@ -57,6 +57,27 @@ module MasslistFunctions
 	abundanceC13 = 0.010816
 	abundanceO18 = 0.002005
 
+	"""
+		masslistPos(x::Number)
+	The function returns `x`, if it is greater than 0, otherwise returns 0.
+
+	Basically the function is used to find the position in a masslist.
+
+	# Arguments
+	- `x::Number`: Input number indicating the position.
+
+	# Returns
+	- `x::Number`: Returns x other 0 if smaller than 0.
+
+	# Examples
+	```jldoctest
+	julia> masslistPos(-0.1)
+	0
+	
+	julia> masslistPos(12)
+	12
+	```
+	"""
 	function masslistPos(x)
 	  if (x>0)
 	    return x
@@ -65,6 +86,22 @@ module MasslistFunctions
 	  end
 	end
 
+	"""
+		inCompositions(composition::Array, compositionList::Array)
+	Checks, if the array `composition` can be found in the array `compositionList` and returns a boolean.
+
+	# Arguments
+	- `composition::Array`: An array of length 8, which represents the atomic composition of a molecule.
+	- `compositionList::Array`: An array of composition arrays, which includes all interesting compositions.
+
+	# Returns
+	- `true::boolean`: if composition is in compositionList.
+	- `false::boolean`: if composition is not in compositionList.
+
+
+	# Examples
+
+	"""
 	function inCompositions(composition, compositionList)
 	  for i=1:size(compositionList,2)
 	    if composition == compositionList[:,i]
@@ -76,6 +113,27 @@ module MasslistFunctions
 
 	masslistElements = ["C", "C(13)", "H", "H+", "N", "O", "O(18)", "S"]
 	masslistElementMasses = [massC, massC13, massH, massHplus, massN, massO, massO18, massS]
+
+	"""
+		createMassList(; C=0:0, O=0:0, N=0:0, S=0:0, nHplus=1, allowRadicals=false)
+	Creates a Masslist according to the range given ranges `C`, `O`, `N`, `S`.
+
+	The function input is a given range of C, O, N, S atoms, as well as the number of ionized H. Using this ranges
+	the function creates all possible molecules. Radicals can be included as well for `allowRadicals`=true.
+
+	# Arguments
+	- `C::Array`: Range of carbon atoms.
+	- `O::Array`: Range of oxygen atoms.
+	- `N::Array`: Range of nitrogen atoms.
+	- `S::Array`: Range of sulphur atoms.
+	- `nHplus::Number`: Number of ionized hydrogen atoms.
+	- `allowRadicals::boolean`: true for allowing radicals in list, false for not allowing radicals.
+
+	# Returns
+	- a matrix of masses, with corresponding elements of masslist, their masses and compositions.
+
+	# Examples
+	"""
 	function createMassList(; C=0:0, O=0:0, N=0:0, S=0:0, nHplus=1, allowRadicals=false)
 	  masses = [37.02]
 	  masslistCompositions = [[0 0 4 1 0 2 0 0]]
