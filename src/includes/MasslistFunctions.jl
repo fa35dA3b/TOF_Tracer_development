@@ -103,11 +103,14 @@ module MasslistFunctions
 
 	"""
 	function inCompositions(composition, compositionList)
-	  for i=1:size(compositionList,2)
-	    if composition == compositionList[:,i]
-	      return true
-	    end
-	  end
+		if size(composition, 1) != 8
+			throw(ArgumentError("Error in inCompositions: The composition has not the right size!"))
+		end
+	  	for i=1:size(compositionList,2) # loop over the number of columns in compositionList
+	    	if composition == compositionList[:,i]
+	      		return true
+	    	end
+	  	end
 	  return false
 	end
 
